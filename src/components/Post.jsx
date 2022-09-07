@@ -1,15 +1,18 @@
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 import styles from './Post.module.css';
+import { format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 export function Post({author, publishedAt, content}) {
 
-  const publishedDateFormatted = new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(publishedAt);
+  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR
+  });
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  });
 
   return (
     <article className={styles.post}>
@@ -22,23 +25,21 @@ export function Post({author, publishedAt, content}) {
           </div>
         </div>
 
-        <time title="01 de setembro às 18:00" dateTime="2022-09-01 18:00">
-          {publishedDateFormatted}
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
+        {content.map((item, index) => {
+          if (item.type === 'paragraph') {
+            return <p key={index}>{item.content}</p>;
+          }
 
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-
-        <p><a href='#'>👉 jane.design/doctorcare</a></p>
-
-        <p>
-          <a href='#'>#novoprojeto</a>{' '}
-          <a href='#'>#nlw </a>{' '}
-          <a href='#'>#rocketseat</a>
-        </p>
+          if (item.type === 'link') {
+            return <p><a key={index} href="#">{item.content}</a></p>;
+          }
+        })}
       </div>
 
       <form className={styles.commentForm}>
