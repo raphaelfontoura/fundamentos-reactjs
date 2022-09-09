@@ -28,7 +28,7 @@ const posts = [
       role: 'Educator @Rocketseat'
     },
     content: [
-      { type: 'paragraph', content: 'Fala galeraa 👋' },
+      { type: 'paragraph', content: 'Fala galera.' },
       { type: 'paragraph', content: 'Acabei de subir mais um projeto no meu portifólio. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀'},
       { type: 'link', content: 'jane.design/doctorcare'}
     ],
